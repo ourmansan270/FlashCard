@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: flashcard
-        image: yourdockerhubusername/flashcard:latest
+        image: riskfactory/flashcard:latest
         ports:
         - containerPort: 5000
