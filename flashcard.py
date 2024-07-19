@@ -1,77 +1,102 @@
+# app.py
+
 import os
 import random
-import tkinter as tk
-from tkinter import filedialog, messagebox
+from flask import Flask, request, render_template, redirect, url_for
+from werkzeug.utils import secure_filename
+import pypdf
+import nltk
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
+from collections import Counter
+
+# Download NLTK data (run this once)
+nltk.download('punkt')
+nltk.download('stopwords')
+
+app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['ALLOWED_EXTENSIONS'] = {'txt', 'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
 def read_document(filename):
-    """Read and return the content of the specified text document."""
-    with open(filename, 'r', encoding='utf-8') as file:
-        content = file.read()
+    """Read and return the content of the specified document."""
+    content = ""
+    if filename.lower().endswith('.txt'):
+        with open(filename, 'r', encoding='utf-8') as file:
+            content = file.read()
+    elif filename.lower().endswith('.pdf'):
+        reader = pypdf.PdfReader(filename)
+        for page in reader.pages:
+            content += page.extract_text()
+    else:
+        raise ValueError("Unsupported file format. Please upload a .txt or .pdf file.")
     return content
 
-def generate_mcq_quiz(content):
-    """Generate a simple MCQ quiz based on the content of the text document."""
-    questions = content.strip().split('\n\n')
-    score = 0
+def extract_keywords(text, num_keywords=5):
+    """Extract keywords from the text."""
+    words = word_tokenize(text)
+    stop_words = set(stopwords.words('english'))
+    filtered_words = [word for word in words if word.isalnum() and word.lower() not in stop_words]
+    word_counts = Counter(filtered_words)
+    keywords = [word for word, count in word_counts.most_common(num_keywords)]
+    return keywords
 
-    for q in questions:
-        lines = q.strip().split('\n')
-        
-        if len(lines) < 6:
-            print("Error: Invalid question format. Each question must have a question, 4 options, and a correct answer.")
+def generate_mcq_from_paragraphs(content):
+    """Generate MCQs based on paragraphs in the document."""
+    paragraphs = content.strip().split('\n\n')
+    questions = []
+
+    for para in paragraphs:
+        sentences = sent_tokenize(para)
+        if not sentences:
             continue
 
-        question = lines[0]
-        options = lines[1:5]
-        correct_answer_line = lines[5].split(': ')
+        for sentence in sentences:
+            keywords = extract_keywords(sentence, num_keywords=4)
+            if not keywords:
+                continue
 
-        if len(correct_answer_line) != 2:
-            print("Error: Invalid correct answer format.")
-            continue
+            question = f"What is a key concept from the following sentence: \"{sentence}\""
+            correct_answer = random.choice(keywords)
 
-        correct_answer = correct_answer_line[1].strip()
+            # Ensure we have enough keywords to sample from
+            num_options = min(len(keywords), 4)
+            options = [correct_answer] + random.sample(keywords, num_options - 1)
+            random.shuffle(options)
 
-        print(f"\n{question}")
-        for i, option in enumerate(options):
-            print(option)
-        
-        answer = input("Your answer (A/B/C/D): ").strip().upper()
-        if answer == correct_answer:
-            print("Correct!")
-            score += 1
-        else:
-            print(f"Incorrect! The correct answer is {correct_answer}")
+            questions.append({
+                'question': question,
+                'options': options,
+                'correct_answer': correct_answer
+            })
 
-    print(f"\nQuiz completed! Your score: {score}/{len(questions)}")
+    return questions
 
-def upload_document():
-    """Upload a document using file dialog and return its content."""
-    root = tk.Tk()
-    root.withdraw()  # Hide the root window
-    file_path = filedialog.askopenfilename(
-        title="Select a Text Document",
-        filetypes=[("Text Files", "*.txt")]
-    )
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            return redirect(request.url)
+        file = request.files['file']
+        if file.filename == '':
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+            
+            # Read and process the document
+            content = read_document(file_path)
+            questions = generate_mcq_from_paragraphs(content)
 
-    if not file_path:
-        print("No file selected.")
-        return None
-
-    try:
-        with open(file_path, 'r', encoding='utf-8') as src_file:
-            content = src_file.read()
-        messagebox.showinfo("Success", f"Document '{os.path.basename(file_path)}' uploaded successfully!")
-        return content
-    except Exception as e:
-        messagebox.showerror("Error", f"Failed to upload document: {e}")
-        return None
-
-def main():
-    print("Welcome to the Exam Helper!")
+            return render_template('quiz.html', questions=questions)
     
-    content = upload_document()
-    if content:
-        generate_mcq_quiz(content)
+    return render_template('index.html')
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    if not os.path.exists(app.config['UPLOAD_FOLDER']):
+        os.makedirs(app.config['UPLOAD_FOLDER'])
+    app.run(debug=True)

@@ -1,0 +1,35 @@
+What is the primary goal of cybersecurity?
+A. Protecting information
+B. Ensuring usability
+C. Enhancing performance
+D. Improving accessibility
+Answer: A
+
+Which of the following is a common cybersecurity threat?
+A. Phishing
+B. Debugging
+C. Compiling
+D. Logging
+Answer: A
+
+What does VPN stand for?
+A. Virtual Private Network
+B. Virtual Public Network
+C. Visual Private Network
+D. Visual Public Network
+Answer: A
+
+Which protocol is used for secure communication over the internet?
+A. HTTP
+B. FTP
+C. SSH
+D. HTTPS
+Answer: D
+
+What is a firewall?
+A. A software that detects viruses
+B. A hardware device that filters network traffic
+C. A tool for managing passwords
+D. A protocol for secure email
+Answer: B
+

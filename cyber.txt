@@ -1,69 +1,35 @@
-What is cybersecurity?
-A) The practice of protecting systems, networks, and programs from digital attacks.
-B) The practice of making systems, networks, and programs vulnerable.
-C) The practice of deleting all data from systems.
-D) The practice of creating malware.
-Correct Answer: A
+What is the primary goal of cybersecurity?
+A. Protecting information
+B. Ensuring usability
+C. Enhancing performance
+D. Improving accessibility
+Answer: A
 
-What are the different types of cyber threats?
-A) Malware, phishing, ransomware, man-in-the-middle attacks, and denial-of-service attacks.
-B) Hacking, spamming, malware, and cyberbullying.
-C) Malware, email scams, password guessing, and hacking.
-D) None of the above.
-Correct Answer: A
+Which of the following is a common cybersecurity threat?
+A. Phishing
+B. Debugging
+C. Compiling
+D. Logging
+Answer: A
 
-What is malware?
-A) A type of software designed to damage or disable computers and computer systems.
-B) A type of software designed to protect computers from attacks.
-C) A hardware component that improves computer performance.
-D) A social engineering attack.
-Correct Answer: A
+What does VPN stand for?
+A. Virtual Private Network
+B. Virtual Public Network
+C. Visual Private Network
+D. Visual Public Network
+Answer: A
 
-What is phishing?
-A) A method of trying to gather personal information using deceptive e-mails and websites.
-B) A method of fishing in the ocean.
-C) A way to physically steal someone's data.
-D) A type of software that protects against malware.
-Correct Answer: A
-
-What is ransomware?
-A) A type of malicious software designed to block access to a computer system until a sum of money is paid.
-B) A type of software that updates systems.
-C) A computer hardware component.
-D) A network protocol.
-Correct Answer: A
-
-What is a man-in-the-middle attack?
-A) When an attacker secretly intercepts and relays messages between two parties who believe they are communicating directly with each other.
-B) When a person stands between two others.
-C) A firewall configuration.
-D) A secure communication protocol.
-Correct Answer: A
-
-What is a denial-of-service attack?
-A) An interruption in an authorized user's access to a computer network, typically one caused with malicious intent.
-B) A network performance improvement technique.
-C) A type of encryption.
-D) A secure login method.
-Correct Answer: A
-
-What are some common cybersecurity practices?
-A) Using strong passwords, regularly updating software, using antivirus software, and being cautious of email attachments and links.
-B) Using weak passwords, never updating software, not using antivirus software, and clicking on all email attachments.
-C) Ignoring cybersecurity altogether.
-D) None of the above.
-Correct Answer: A
-
-What is encryption?
-A) The process of converting information or data into a code, especially to prevent unauthorized access.
-B) The process of deleting all data from a system.
-C) A type of network configuration.
-D) A hardware security component.
-Correct Answer: A
+Which protocol is used for secure communication over the internet?
+A. HTTP
+B. FTP
+C. SSH
+D. HTTPS
+Answer: D
 
 What is a firewall?
-A) A network security system that monitors and controls incoming and outgoing network traffic based on predetermined security rules.
-B) A physical wall that protects computer systems.
-C) A software bug.
-D) A type of malware.
-Correct Answer: A
+A. A software that detects viruses
+B. A hardware device that filters network traffic
+C. A tool for managing passwords
+D. A protocol for secure email
+Answer: B
+
