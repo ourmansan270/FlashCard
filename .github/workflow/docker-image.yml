@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main
+      - major
 
 jobs:
   build:
@@ -26,4 +26,4 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/my_flask_app:latest
+        tags: ${{ secrets.DOCKER_USERNAME }}/flashcad:latest
