@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flashcard-deployment
+  labels:
+    app: flashcard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flashcard
+  template:
+    metadata:
+      labels:
+        app: flashcard
+    spec:
+      containers:
+      - name: flashcard
+        image: yourdockerhubusername/flashcard:latest
+        ports:
+        - containerPort: 5000
