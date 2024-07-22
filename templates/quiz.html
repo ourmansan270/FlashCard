@@ -1,29 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCQ Quiz</title>
+    <meta charset="utf-8">
+    <title>Quiz</title>
 </head>
 <body>
-    <h1>MCQ Quiz</h1>
-    <form action="/submit" method="post">
-        {% set index = 0 %}
-        {% for question in questions %}
-        <div>
-            <p>{{ question.text }}</p>
-            {% for option in question.options %}
-            <label>
-                <input type="radio" name="question_{{ index + 1 }}" value="{{ option.split(') ')[0] }}" required>
-                {{ option }}
-            </label><br>
-            {% endfor %}
-        </div>
-        <input type="hidden" name="correct_answers" value="{{ question.answer }}">
-        <br>
-        {% set index = index + 1 %}
+    <h1>Question {{ index + 1 }} of {{ total }}</h1>
+    <form method="post">
+        <p>{{ question['text'] }}</p>
+        {% for option in question['options'] %}
+            <input type="radio" name="answer" value="{{ option }}" required> {{ option }}<br>
         {% endfor %}
-        <button type="submit">Submit</button>
+        <button type="submit" name="next">Next</button>
     </form>
 </body>
 </html>
